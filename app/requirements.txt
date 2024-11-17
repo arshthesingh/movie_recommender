@@ -4,3 +4,5 @@ Flask-Cors
 Flask-JWT-Extended
 Flask-SQLAlchemy
 flask-login
+Flask-WTF
+WTForms
