@@ -92,3 +92,25 @@ def add_to_watchlist():
 
     return jsonify({"message": f'"{movie_title}" added to your watchlist!'}), 200
 
+
+@api.route("/api/watchlist/remove", methods=["POST"])
+@jwt_required()
+def remove_from_watchlist():
+    data = request.json
+    movie_title = data.get('movie_title')
+
+    if not movie_title:
+        return jsonify({"error": "Movie title is required"}), 400
+
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user['username']).first()
+
+    watchlist_entry = Watchlist.query.filter_by(user_id=user.id, movie_title=movie_title).first()
+
+    if not watchlist_entry:
+        return jsonify({"error": f'"{movie_title}" is not in your watchlist'}), 404
+
+    db.session.delete(watchlist_entry)
+    db.session.commit()
+
+    return jsonify({"message": f'"{movie_title}" removed from your watchlist!'}), 200
