@@ -53,3 +53,29 @@ def logout_user_api():
     logout_user()
     return jsonify({"message": "Logged out successfully"}), 200
 
+
+@api.route("/api/watchlist/add", method=["POST"])
+@jwt_required()
+def add_to_watchlist():
+    data = request.json
+    movie_title = data.get('movie_title')
+
+    if not movie_title:
+        return jsonify({"error": "Movie title is required"}), 400
+    
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user['username']).first()
+
+    if Watchlist.query.filter_by(user_id=user.id, movie_title=movie_title).first():
+        return jsonify({"error": f'"{movie_title}" is already in your watchlist'}), 400
+    
+    highest_priority = db.session.query(db.func.max(Watchlist.priority)).filter_by(user_id=user.id).scalar()
+
+    new_priority = (highest_priority or 0) + 1
+
+    new_watchlist_entry = Watchlist(user_id=user.id, movie_title=movie_title, priority=new_priority)
+    db.session.add(new_watchlist_entry)
+    db.session.commit()
+
+    return jsonify({"message": f'"{movie_title}" added to your watchlist!'}), 200
+
