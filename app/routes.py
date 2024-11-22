@@ -54,6 +54,19 @@ def logout_user_api():
     return jsonify({"message": "Logged out successfully"}), 200
 
 
+@api.route("/api/watchlist", methods=["GET"])
+@jwt_required()
+def view_watchlist():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user['username']).first()
+    
+    watchlist = Watchlist.query.filter_by(user_id=user.id).order_by(Watchlist.priority).all()
+    
+    movies = [{"title": entry.movie_title, "priority": entry.priority} for entry in watchlist]
+
+    return jsonify(movies), 200
+
+
 @api.route("/api/watchlist/add", method=["POST"])
 @jwt_required()
 def add_to_watchlist():
