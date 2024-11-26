@@ -2,15 +2,9 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import Watchlist, User
 from app import db
+from app.utils import get_current_user
 
 watchlist_blueprint = Blueprint('watchlist', __name__)
-
-def get_current_user():
-    """
-    Helper function to get the current logged-in user from the JWT.
-    """
-    current_identity = get_jwt_identity()
-    return User.query.filter_by(username=current_identity['username']).first()
 
 
 @watchlist_blueprint.route("/add", methods=["POST"])
