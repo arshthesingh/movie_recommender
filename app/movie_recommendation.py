@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
-movies_df = pd.read_csv('app/filtered_movies_data.csv')
+movies_df = pd.read_csv('filtered_movies_data.csv')
 
 movies_df['overview'] = movies_df['overview'].fillna('')
 
