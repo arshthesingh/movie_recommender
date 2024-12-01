@@ -27,10 +27,12 @@ def create_app():
 
     from app.auth import auth_blueprint
     from app.watchlist import watchlist_blueprint
+    from app.recommendations import recommendations_blueprint
     from app.routes import api
 
     app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
     app.register_blueprint(watchlist_blueprint, url_prefix="/api/watchlist")
+    app.register_blueprint(recommendations_blueprint, url_prefix="/api")
     app.register_blueprint(api)
 
     if not os.path.exists('site.db'):
