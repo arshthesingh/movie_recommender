@@ -6,3 +6,6 @@ Flask-SQLAlchemy
 flask-login
 Flask-WTF
 WTForms
+python-dotenv
+pandas
+scikit-learn
