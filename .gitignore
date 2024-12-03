@@ -1,0 +1,22 @@
+# Virtual environment
+.venv/
+
+# Ignore the specific SQLite database file
+instance/site.db
+
+# Or, ignore all `.db` files in the `instance` folder
+instance/*.db
+
+# Ignore the entire `instance/` folder (if you want to ignore everything in it)
+instance/
+
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Node.js modules (if applicable)
+node_modules/
