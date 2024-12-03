@@ -48,3 +48,35 @@ def test_register_duplicate_user(client):
     })
     assert response.status_code == 400
     assert response.json == {"error": "Username already exists"}
+    
+
+def test_login_success(client):
+    """
+    Test successful login.
+    """
+    # Register a user first
+    client.post("/api/auth/register", json={
+        "username": "testuser",
+        "password": "testpassword"
+    })
+
+    # Attempt to log in
+    response = client.post("/api/auth/login", json={
+        "username": "testuser",
+        "password": "testpassword"
+    })
+    assert response.status_code == 200
+    assert "access_token" in response.json
+
+
+def test_login_invalid_credentials(client):
+    """
+    Test login with invalid credentials.
+    """
+    response = client.post("/api/auth/login", json={
+        "username": "invaliduser",
+        "password": "wrongpassword"
+    })
+    assert response.status_code == 401
+    assert response.json == {"error": "Invalid username or password"}
+
