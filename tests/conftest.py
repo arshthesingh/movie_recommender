@@ -1,5 +1,7 @@
 import pytest
 from app import create_app, db
+from app.models import User 
+
 
 @pytest.fixture
 def app():
@@ -19,12 +21,14 @@ def app():
         db.session.remove()
         db.drop_all()  
 
+
 @pytest.fixture
 def client(app):
     """
     Provides a test client for the Flask application.
     """
     return app.test_client()
+
 
 @pytest.fixture
 def runner(app):
