@@ -80,3 +80,26 @@ def test_login_invalid_credentials(client):
     assert response.status_code == 401
     assert response.json == {"error": "Invalid username or password"}
 
+
+def test_logout_success(client):
+    """
+    Test successful logout.
+    """
+    # Register and log in
+    client.post("/api/auth/register", json={
+        "username": "testuser",
+        "password": "testpassword"
+    })
+    login_response = client.post("/api/auth/login", json={
+        "username": "testuser",
+        "password": "testpassword"
+    })
+
+    token = login_response.json["access_token"]
+
+    # Logout
+    response = client.post("/api/auth/logout", headers={
+        "Authorization": f"Bearer {token}"
+    })
+    assert response.status_code == 200
+    assert response.json == {"message": "User 'testuser' logged out successfully"}  
