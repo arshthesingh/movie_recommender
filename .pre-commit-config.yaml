@@ -1,0 +1,13 @@
+repos:
+  # Black: Automatically formats code before pushing
+  - repo: https://github.com/psf/black
+    rev: 23.9.1  
+    hooks:
+      - id: black
+
+  # Flake8: Checks for issues but won't block a commit
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0  
+    hooks:
+      - id: flake8
+        args: ["--exit-zero"]  
