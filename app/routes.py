@@ -6,5 +6,5 @@ from app.models import User, Watchlist
 from app.movie_recommendation import get_recommendations
 from flask_cors import CORS
 
-api = Blueprint('api', __name__)
+api = Blueprint("api", __name__)
 CORS(api)
