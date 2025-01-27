@@ -14,20 +14,19 @@ def add_to_watchlist():
     Adds a movie to the user's watchlist.
     """
     data = request.json
-    print("Received Data:", data) 
+    print("Received Data:", data)
 
     movie_title = data.get("movie_title")
     if not movie_title:
         return jsonify({"error": "Movie title is required"}), 400
 
     user = get_current_user()
-    print("User:", user.username) 
+    print("User:", user.username)
 
     # Check for duplicates
     if Watchlist.query.filter_by(user_id=user.id, movie_title=movie_title).first():
         return jsonify({"error": f'"{movie_title}" is already in your watchlist'}), 400
 
-    
     highest_priority = (
         db.session.query(db.func.max(Watchlist.priority))
         .filter_by(user_id=user.id)
@@ -40,9 +39,7 @@ def add_to_watchlist():
     db.session.add(new_watchlist_entry)
     db.session.commit()
 
-    print(
-        f"Movie '{movie_title}' added to watchlist for user '{user.username}'"
-    )  
+    print(f"Movie '{movie_title}' added to watchlist for user '{user.username}'")
     return jsonify({"message": f'"{movie_title}" added to your watchlist!'}), 200
 
 

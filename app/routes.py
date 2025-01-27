@@ -20,6 +20,7 @@ app = create_app()
 def index():
     return jsonify({"message": "Welcome to the backend API!"})
 
+
 if __name__ == "__main__":
     app.run(debug=True)
 

@@ -50,9 +50,7 @@ def login_user_api():
 
     user = User.query.filter_by(username=username).first()
     if user and bcrypt.check_password_hash(user.password, password):
-        access_token = create_access_token(
-            identity=username
-        ) 
+        access_token = create_access_token(identity=username)
         return (
             jsonify(
                 {"message": "Logged in successfully", "access_token": access_token}
