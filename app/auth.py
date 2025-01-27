@@ -52,7 +52,7 @@ def login_user_api():
     if user and bcrypt.check_password_hash(user.password, password):
         access_token = create_access_token(
             identity=username
-        )  # Username directly as a string
+        ) 
         return (
             jsonify(
                 {"message": "Logged in successfully", "access_token": access_token}
